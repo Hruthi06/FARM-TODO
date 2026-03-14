@@ -10,14 +10,19 @@ services:
       - backend
       - frontend
   frontend:
-    image: "node:22"
-    user: "node"
-    working_dir: /home/node/app
+    build: ./frontend
     environment:
       - NODE_ENV=development
       - WDS_SOCKET_PORT=0
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - CI=true
+    tty: true
+    stdin_open: true
     volumes:
       - ./frontend/:/home/node/app
+      - /home/node/app/node_modules
     expose:
       - "3000"
     ports:
